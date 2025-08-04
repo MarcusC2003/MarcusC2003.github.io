@@ -1,13 +1,174 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marcus Chan - Portfolio IDE</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="welcome-screen">
+        <div class="welcome-content">
+            <div class="welcome-header">
+                <h1>Marcus Chan</h1>
+                <h2>Creative Developer & Designer</h2>
+                <p>Welcome to my portfolio IDE. Click "Open Portfolio" to explore my work.</p>
+            </div>
+            <div class="welcome-actions">
+                <button class="open-portfolio-btn" onclick="openPortfolio()">
+                    Open Portfolio
+                </button>
+            </div>
+            <div class="welcome-features">
+                <div class="feature-item">
+                    <span class="feature-icon">◉</span>
+                    <span class="feature-text">Interactive IDE Interface</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">◉</span>
+                    <span class="feature-text">Dark/Light Mode Toggle</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">◉</span>
+                    <span class="feature-text">Terminal Commands</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Triangle Animated Elements -->
+        <div class="welcome-animations">
+            <div class="floating-triangles">
+                <div class="triangle triangle-1"></div>
+                <div class="triangle triangle-2"></div>
+                <div class="triangle triangle-3"></div>
+                <div class="triangle triangle-4"></div>
+            </div>
+            <div class="floating-lines">
+                <div class="line line-1"></div>
+                <div class="line line-2"></div>
+                <div class="line line-3"></div>
+                <div class="line line-4"></div>
+            </div>
+            <div class="floating-dots">
+                <div class="dot dot-1"></div>
+                <div class="dot dot-2"></div>
+                <div class="dot dot-3"></div>
+                <div class="dot dot-4"></div>
+                <div class="dot dot-5"></div>
+                <div class="dot dot-6"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen-full" style="display: none;">
+        <div class="loading-container-full">
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <span class="terminal-title">◉ Portfolio IDE</span>
+                    <div class="terminal-controls">
+                        <span class="control close"></span>
+                        <span class="control minimize"></span>
+                        <span class="control maximize"></span>
+                    </div>
+                </div>
+                <div class="terminal-body">
+                    <div class="loading-output" id="loading-output">
+                        <!-- Loading output will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main IDE -->
+    <div id="ide" class="ide" style="display: none;">
+        <!-- File Explorer -->
+        <div class="file-explorer">
+            <div class="explorer-header">
+                <span class="explorer-title">Marcus Chan</span>
+                <div class="theme-toggle-container">
+                    <span class="theme-icon" id="theme-icon">☀️</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="theme-toggle">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="file-list">
+                <div class="file-item active" data-file="home.html">
+                    <span class="file-icon">◉</span>
+                    <span class="file-name">home.html</span>
+                </div>
+                <div class="file-item" data-file="about.html">
+                    <span class="file-icon">◉</span>
+                    <span class="file-name">about.html</span>
+                </div>
+                <div class="file-item" data-file="skills.html">
+                    <span class="file-icon">◉</span>
+                    <span class="file-name">skills.html</span>
+                </div>
+                <div class="file-item" data-file="projects.html">
+                    <span class="file-icon">◉</span>
+                    <span class="file-name">projects.html</span>
+                </div>
+                <div class="file-item" data-file="contact.html">
+                    <span class="file-icon">◉</span>
+                    <span class="file-name">contact.html</span>
+                </div>
+                
+                <!-- Project Directory in Navbar -->
+                <div class="project-directory">
+                    <div class="directory-header" onclick="toggleProjects()">
+                        <span class="directory-icon">📁</span>
+                        <span class="directory-name">projects/</span>
+                        <span class="expand-icon" id="expand-icon">+</span>
+                    </div>
+                    <div class="project-list" id="project-list" style="max-height: 0;">
+                        <!-- Project items will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Editor -->
+        <div class="main-editor">
+            <div id="file-content" class="file-content">
+                <!-- File content will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Terminal -->
+        <div class="terminal">
+            <div class="terminal-header">
+                <span class="terminal-title">◉ Terminal</span>
+                <div class="terminal-controls">
+                    <span class="control close"></span>
+                    <span class="control minimize"></span>
+                    <span class="control maximize"></span>
+                </div>
+            </div>
+            <div class="terminal-body">
+                <div class="terminal-output" id="terminal-output">
+                    <!-- Terminal output will be populated by JavaScript -->
+                </div>
+                <form class="terminal-input-line" onsubmit="handleTerminalSubmit(event)">
+                    <span class="prompt">$ </span>
+                    <input type="text" class="terminal-input" id="terminal-input" placeholder="Type a command..." autofocus>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
